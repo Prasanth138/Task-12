@@ -1,13 +1,12 @@
-import React from 'react';
+import React, {useState} from "react";
 
-export default function shops({item, handleClick}) {
-    const { name, price,image } = item;
-   
-
+export default function shops({cart, setCart, handleClick, item}) {
+    const { name, price} = item;
+    console.log(cart);
   return (
-    <div className="col">
-                    <div className="card h-75">
-                        <img className="card-img-top h-75 p-2" src={image} alt="..." />
+    <div className="col my-4">
+                    <div className="card">
+                        <img className="card-img-top p-2" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
                         <div className="card-body m-0 pt-2">
                             <div className="text-center">
                                 <h5 className="fw-bolder">{name}</h5>
@@ -22,10 +21,10 @@ export default function shops({item, handleClick}) {
                             </div>
                         </div>
                         <div className="card-footer p-3 pt-0 border-top-0 bg-transparent">
-                            <div className="text-center"><button className="btn btn-outline-dark mt-auto" href="#" onClick={() => handleClick(item)}>Add to cart</button></div>
+                            <div className="text-center"><button className="btn btn-outline-dark mt-auto" href="#" onClick={() => handleClick(item) }>Add to Cart</button></div>
                         </div>
                     </div>
                 </div>
-                
+          
   )
 }

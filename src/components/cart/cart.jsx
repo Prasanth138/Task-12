@@ -1,32 +1,24 @@
-import { useContext, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext";
+import { useState, useEffect } from "react";
 import "./cart.css";
 
-const Cart = ({ cart, setCart, handleChange }) => {
+const Cart = ({ cart, setCart, data, setData, handleChange }) => {
   const [price, setPrice] = useState(0);
-  const [openModal, setOpenModal] = useState(false);
-  const { user } = useContext(AuthContext);
+  // const [openModal, setOpenModal] = useState(false);
+  
 
-  const handleRemove = (id) => {
-    const arr = cart.filter((item) => item._id !== id);
+  const handleRemove = (item,name,id) => {
+    const arr = cart.filter((item) => item.name !== name);
     setCart(arr);
+   
+    let obj= item ? (item.isInCart=false) : (data);
+    setData([...data]);
     handlePrice();
   };
 
-  const navigate = useNavigate()
-  const handleRoute=(price)=>{
-    if (user) {
-      setOpenModal(true);
-      navigate("/bill");
-    } else {
-      navigate("/login");
-    }
-    
-  }
+ 
+ 
   const handlePrice = () => {
     let ans = 0;
-    
     cart.map((item) => {(ans +=  parseInt(item.price)); 
     });
     
@@ -39,8 +31,8 @@ const Cart = ({ cart, setCart, handleChange }) => {
 
   return (
     <article>
-      {cart.map((item) => (
-        <div className="cart_box" key={item._id}>
+      {cart.map((item, index) => (
+        <div className="cart_box" key={index}>
           <div className="cart_img">
             <img src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="" />
             <p>{item.name}</p>
@@ -49,16 +41,16 @@ const Cart = ({ cart, setCart, handleChange }) => {
            
           </div>
           <div>
+            
             <span>Rs.{item.price}</span>
-            <button onClick={() => handleRemove(item._id)}>Remove</button>
+            <button onClick={() => handleRemove(item,item.name)}>Remove</button>
             
           </div>
         </div>
       ))}
       <div className="total">
         <span>Total Price of your Cart</span>
-        <span>Rs - {price}</span>    
-        <button className="btn btn-danger" style={{ marginTop: 5 }} onClick={() => handleRoute(price)}>Checkout</button>     
+        <span>Rs - {price}</span>     
       </div>
       
       
@@ -66,10 +58,6 @@ const Cart = ({ cart, setCart, handleChange }) => {
 
   );
 };
-
-
-
-
 
 export default Cart;
 
